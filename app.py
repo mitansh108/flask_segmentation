@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import io
 import base64
+import os
 
 app = Flask(__name__)
 
@@ -14,6 +15,10 @@ app = Flask(__name__)
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 # Load the segmentation model
+global model
+# Get the path to the directory containing the model weights file
+model_dir = os.path.dirname(os.path.abspath(app.py))
+model_path = os.path.join(model_dir, '/Users/mitanshpatel/Downloads/micronet_resnet50_steel_dataset.pth')
 model = Unet('resnet50', encoder_weights=None, classes=1).to(device)
 model.load_state_dict(torch.load('/Users/mitanshpatel/Downloads/micronet_resnet50_steel_dataset.pth', map_location=device))
 model.eval()  # Set model to evaluation mode
